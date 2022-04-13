@@ -20,7 +20,9 @@
  * @subpackage  
  * @category    
  * @author      Muhammad Aimal <aimal.azmi.13@gmail.com>
- * @link        
+ * @link        https://github.com/AimalAzmi/codeigniter-migrations
+ * @author      Ricardo Vigatti <ricardo.vigatti@hotmail.com>
+ * @link        https://github.com/ricardovigatti/codeigniter-migrations
  */
 
 class Migrate extends CI_Controller
@@ -59,7 +61,7 @@ class Migrate extends CI_Controller
 	 *
 	 * @var string
 	 */
-	protected $_class_version = '1.0';
+	protected $_class_version = '1.1';
 
 	/**
 	 * Info file
@@ -101,18 +103,18 @@ class Migrate extends CI_Controller
 		if ( ! is_dir($this->_migration_path))
 		{
 			// The migration directory wasnot found
-			echo 'The application/migrations folder doesnot exist'  .  PHP_EOL;
+			echo 'The application/migrations folder does not exist'  .  PHP_EOL;
 			
 			echo 'Creating the application/migrations folder...'  .  PHP_EOL;
 
 			if ( ! mkdir($this->_migration_path))
 			{
 				// There was an eror creating the path
-				show_error('Could not create the directory application/migrations! Try again and if the error persists try creating it manually!');
+				show_error('Could not create the directory '.$this->_migration_path.'! Try again and if the error persists try creating it manually!');
 			}
 
 			// Directory created successfully
-			echo 'Directory application/migrations created successfully!'  .  PHP_EOL;
+			echo 'Directory '.$this->_migration_path.' created successfully!'  .  PHP_EOL;
 		}
 
 		// Customize the migrations table
@@ -264,7 +266,7 @@ class Migrate extends CI_Controller
 		{
 			if ($this->rollback(0) === FALSE)
 			{
-				show_error("There was an error resetting the migrations!");
+				show_error("There was an error reseting the migrations!");
 			}
 		}
 
@@ -277,10 +279,10 @@ class Migrate extends CI_Controller
 		//Delete all the migartion files
 		if (delete_files($this->_migration_path) === FALSE)
 		{
-			show_error("Could not all the migration files!");
+			show_error("Could not delete all the migration files!");
 		}
 		
-		echo "Migartions have been reset!";
+		echo "Migrations have been reset!";
 	}
 
 	// --------------------------------------------------------------------
@@ -301,7 +303,7 @@ class Migrate extends CI_Controller
 		else
 		{
 			show_error("Looks like your migrations table hasn't been configured properly!" .
-					" Try reseting the migarations using migrate::reset() and try again!");
+					" Try reseting the migrations using migrate::reset() and try again!");
 		}
 	}
 
@@ -414,7 +416,7 @@ class Migrate extends CI_Controller
 		// Check if config/migration.php exists
 		if ( ! file_exists($migration_config_file))
 		{
-			show_error("It seems the config/migration.php file doesnot exist. That file is necessary!");
+			show_error("It seems the config/migration.php file does not exist. That file is necessary!");
 		}
 
 		// Migrations Config File exists, load it
@@ -443,7 +445,7 @@ class Migrate extends CI_Controller
 				if ( ! write_file($migration_config_file,$migration_file_content))
 				{
 					$error = 'There was an error while configuring changes in the config/migration.php file!';
-					$error .= PHP_EOL  .  'If the error persists simply goto projectfolder/application/config/migration.php'  .  PHP_EOL;
+					$error .= PHP_EOL  .  'If the error persists simply go to project folder /application/config/migration.php'  .  PHP_EOL;
 					$error .= ' and set $'.'config[migration_enabled] = TRUE';
 					show_error($error);
 				}
@@ -490,7 +492,7 @@ class Migrate extends CI_Controller
 		}
 
 		$fields = array(
-		        'latest_file_version' => array('type' => 'INT','default' => 0)
+			'latest_file_version' => array('type' => 'INT', 'default' => 0)
 		);
 
 		if ($this->dbforge->add_column($this->_migration_table, $fields) === FALSE)
