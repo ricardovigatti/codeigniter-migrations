@@ -61,7 +61,7 @@ class Migrate extends CI_Controller
 	 *
 	 * @var string
 	 */
-	protected $_class_version = '1.1';
+	protected $_class_version = '1.2';
 
 	/**
 	 * Info file
@@ -120,6 +120,9 @@ class Migrate extends CI_Controller
 		// Customize the migrations table
 		// created by CI to suit our needs
 		$this->_customize_migrations_table();
+
+		// Update migrations latest_file_version
+		$this->_update_latest_file_version($this->config->item('migration_version'));
 	}
 
 	// --------------------------------------------------------------------
@@ -720,5 +723,3 @@ class Migrate extends CI_Controller
 	// --------------------------------------------------------------------
 
 }
-
-?>
